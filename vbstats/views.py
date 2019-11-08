@@ -23,7 +23,7 @@ def stats():
             s = Stats()
             s.player = player
             s.gamedate = datetime.strptime(request.form['gamedate'], '%Y-%m-%d').date()
-            s.gamenumber = 1
+            s.gamenumber = request.form['gamenumber']
             for stat in stats_master_list:
                 setattr(s, stat.tag, request.form[player + '-' + stat.tag])
 
