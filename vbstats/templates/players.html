@@ -1,0 +1,28 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
+<h4><a href={{ url_for('createplayer') }}>Create a Player</a></h4>
+
+<table class="table table-striped table-bordered">
+    <thead>
+        <tr>
+            <td>Player Name</td>
+            <td>Gender</td>
+        </tr>
+    </thead>
+    {% for player in players %}
+    <tr>
+        <td>{{player.name}}</td>
+        <td>{{player.gender}}</td>
+    </tr>
+    {% endfor %}
+</table>
+<!-- 
+<form method="POST">
+    <label>Player Name</label><input type="text" name="playername"/>
+    <label>Gender</label><input type="radio" name="gender" value="M">Male<input type="radio" name="gender" value="F">Female
+    <input type="submit" value="Add"/>
+</form> -->
+
+{% endblock %}

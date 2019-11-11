@@ -1,0 +1,20 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
+<!-- <form method="POST">
+    <label>Team Name</label><input type="text" name="teamname"/>
+    <input type="submit" value="Add"/>
+</form> -->
+
+<h1>Add a Team</h1>
+<form method="POST" novalidate>
+    {{form.hidden_tag()}}
+    <p>
+        {{form.name.label}}<br>
+        {{form.name(size=32)}}
+    </p>
+    <p>{{form.submit()}}</p>
+</form>
+
+{% endblock %}

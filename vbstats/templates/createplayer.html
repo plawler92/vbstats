@@ -1,0 +1,21 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
+<h1>Add a Player</h1>
+<form method="POST" novalidate>
+    {{form.hidden_tag()}}
+    <p>
+        {{form.name.label}}<br>
+        {{form.name(size=32)}}
+    </p>
+    {% for g in form.gender %}
+    <tr>
+        <td>{{g}}</td>
+        <td>{{g.label}}</td>
+    </tr>
+    {% endfor %}
+    <p>{{form.submit()}}</p>
+</form>
+
+{% endblock %}
