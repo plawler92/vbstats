@@ -16,6 +16,16 @@
         <td>{{player.name}}</td>
         <td>{{player.gender}}</td>
     </tr>
+    {% endfor %}
 </table>
+
+<form method="POST" action="/addplayertoteam/{{team.id}}" novalidate>
+    {{playerform.hidden_tag()}}
+    <p>
+        {{playerform.player.label}}
+        {{playerform.player()}}
+    </p>
+    <p>{{playerform.submit()}}</p>
+</form>
 
 {% endblock %}

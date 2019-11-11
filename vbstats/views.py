@@ -8,7 +8,7 @@ from vbstats import app, db
 from vbstats.common import get_stats
 from vbstats.models import Stats, Player, Team
 from types import SimpleNamespace
-from vbstats.forms import TeamForm, PlayerForm
+from vbstats.forms import TeamForm, PlayerForm, TeamAddPlayerForm
 
 @app.route('/', methods=['GET','POST'])
 @app.route('/stats', methods=['GET','POST'])
@@ -108,8 +108,21 @@ def createteam():
 @app.route('/team/<id>')
 def team(id):
     team = Team.query.filter_by(id=id).first_or_404()
+    player_form = TeamAddPlayerForm()
     return render_template(
         'team.html',
         team=team,
+        playerform = player_form,
         tile = team.name
     )
+
+@app.route('/addplayertoteam/<id>', methods=['POST'])
+def addplayertoteam(id):
+    form = TeamAddPlayerForm()    
+    team = Team.query.filter_by(id=id).first()
+    player = Player.query.filter_by(id=form.player.data).first()
+    print(form.player.data)
+    team.players.append(player)
+    db.session.add(team)
+    db.session.commit()
+    return redirect(f"/team/{id}")
