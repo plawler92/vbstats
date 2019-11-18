@@ -5,7 +5,14 @@
 <h4><a href={{ url_for('createteam') }}>Create a Team</a></h4>
 
 {% for team in teams %}
-<h2>{{team.name}}</h2><a href="{{ url_for('team', id=team.id)}}">Edit Team</a>
+<h2>{{team.name}}</h2>
+<a href="{{ url_for('teamschedule', id=team.id)}}">View Schedule</a>
+<a href="{{ url_for('team', id=team.id)}}">Edit Team</a>
+<!-- <a href="{{url_for('deleteteam', id=team.id)}}">Delete Team</a> -->
+<form method="POST" action="/deleteteam/{{team.id}}" novalidate>
+    {{deleteteamform.hidden_tag()}}
+    <p>{{deleteteamform.submit()}}</p>
+</form>
 <table class="table table-striped table-bordered">
     <thead>
         <tr>

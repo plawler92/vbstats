@@ -1,0 +1,21 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
+<h2>{{team.name}}</h2>
+
+<form method="POST" action="/addgame/{{team.id}}" novalidate>
+    {{add_game_form.hidden_tag()}}
+    <p>
+        {{add_game_form.location.label}}
+        {{add_game_form.location()}}
+    </p>
+    <P>
+        {{add_game_form.time.label}}
+        {{add_game_form.time()}}
+    </P>
+    <p>{{add_game_form.submit()}}</p>
+</form>
+
+
+{% endblock %}

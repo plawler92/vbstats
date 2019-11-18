@@ -1,0 +1,24 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
+<h2>{{team.name}}</h2>
+
+<h4>Games</h4>
+<a href={{url_for('addgame', teamid=team.id)}}>Add Game</a>
+<table class="table table-striped table-bordered">
+    <thead>
+        <tr>
+            <td>Time</td>
+            <td>Location</td>
+        </tr>
+    </thead>
+    {% for game in team.games %}
+    <tr>
+        <td>{{game.time}}</td>
+        <td>{{game.location}}</td>
+    </tr>
+    {% endfor %}
+</table>
+
+{% endblock %}

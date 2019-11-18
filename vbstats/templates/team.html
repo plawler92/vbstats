@@ -4,6 +4,11 @@
 
 <h1>{{team.name}}</h1>
 
+<form method="POST" action="/deleteteam/{{team.id}}" novalidate>
+    {{deleteteamform.hidden_tag()}}
+    <p>{{deleteteamform.submit()}}</p>
+</form>
+
 <table>
     <thead>
         <tr>

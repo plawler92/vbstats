@@ -6,11 +6,11 @@ from datetime import datetime
 from flask import render_template, request, redirect
 from vbstats import app, db
 from vbstats.common import get_stats
-from vbstats.models import Stats, Player, Team
+from vbstats.models import Stats, Player, Team, Game
 from types import SimpleNamespace
-from vbstats.forms import TeamForm, PlayerForm, TeamAddPlayerForm
+from vbstats.forms import TeamForm, PlayerForm, TeamAddPlayerForm, DeleteTeamForm, AddGameForm
 
-@app.route('/', methods=['GET','POST'])
+#@app.route('/', methods=['GET','POST'])
 @app.route('/stats', methods=['GET','POST'])
 def stats():
     """Renders the home page"""
@@ -82,12 +82,15 @@ def createplayer():
         form=form
     )
 
+@app.route('/')
 @app.route('/teams')
 def teams():
     teams = Team.query.all()
+    delete_team_form = DeleteTeamForm()
     
     return render_template(
         'teams.html',
+        deleteteamform=delete_team_form,
         teams=teams
     )
 
@@ -109,10 +112,12 @@ def createteam():
 def team(id):
     team = Team.query.filter_by(id=id).first_or_404()
     player_form = TeamAddPlayerForm()
+    delete_team_form = DeleteTeamForm()
     return render_template(
         'team.html',
         team=team,
         playerform = player_form,
+        deleteteamform=delete_team_form,
         tile = team.name
     )
 
@@ -126,3 +131,48 @@ def addplayertoteam(id):
     db.session.add(team)
     db.session.commit()
     return redirect(f"/team/{id}")
+
+@app.route('/deleteteam/<id>', methods=['POST'])
+def deleteteam(id):
+    team = Team.query.filter_by(id=id).first()
+    db.session.delete(team)
+    db.session.commit()
+    return redirect(f"/teams")
+
+@app.route('/teamschedule/<id>')
+def teamschedule(id):
+    team = Team.query.filter_by(id=id).first()
+
+    return render_template(
+        'teamschedule.html',
+        team=team,
+        title='Schedule'
+    )
+
+@app.route('/addgame/<teamid>', methods=['GET', 'POST'])
+def addgame(teamid):
+    add_game = AddGameForm()
+    team = Team.query.filter_by(id=teamid).first()
+    if add_game.validate_on_submit():
+        game = Game()
+        print(add_game.location.data)
+        print(add_game.date.data)
+        print(add_game.time.data)
+        # game.location = add_game.location.data
+        # print(add_game.time.data)
+        # game.time = add_game.time.data
+        # team.games.append(game)
+        # db.session.add(team)
+        # db.session.commit()
+        return redirect(f'/teamschedule/{teamid}')
+    return render_template(
+        'addgame.html',
+        add_game_form=add_game,
+        team=team,
+        title='Add Game'
+    )
+    # if form.validate_on_submit():
+    #     p = Player(name=form.name.data, gender=form.gender.data)
+    #     db.session.add(p)
+    #     db.session.commit()
+    #     return redirect('/players')
